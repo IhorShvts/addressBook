@@ -1,0 +1,58 @@
+html,body {
+    font-family: Arial,sans-serif;
+}
+h1 {
+    text-align: center;
+    font-weight:600;
+    margin-top:15px;
+    color: #1b1e21;
+}
+.helper {
+    display: none;
+}
+
+.open {
+    display: block;
+}
+
+.modal-content {
+    padding:20px;
+}
+.form-check-input {
+    margin-left: 7px;
+}
+#btn-info,#btn-select-all,#importJson {
+    margin-left: 1em;
+}
+.pac-container {
+    z-index: 2000;
+}
+.tableSearch {
+    padding: 5px;
+}
+#ui1 {
+    display: flex;
+    flex-direction: row;
+}
+#ui1 div {
+    display: flex;
+    flex-direction: column;
+}
+
+#ui1 div span {
+    padding: 10px;
+    margin: 10px;
+    min-height: 43px;
+}
+#ui1 div input {
+    padding: 8px;
+    margin: 10px;
+}
+.heading {
+    font-weight: bold;
+}
+
+.pointable {
+    padding: 5px;
+    cursor: pointer;
+}

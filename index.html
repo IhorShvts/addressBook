@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Address Book</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="src/libs/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/style.css">
+</head>
+<body>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="regModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form id="regForm">
+                <div class="form-group">
+                    <h1>Register</h1>
+                    <label for="UserLogin">Username</label>
+                    <input class="form-control" type="text" placeholder="John" id="UserLogin">
+                </div>
+
+                <div class="form-group">
+                    <label for="UserPass">Password</label>
+                    <input class="form-control" type="password" placeholder="******" id="UserPass">
+                </div>
+            </form>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <div class="btn btn-primary" id="SignUp">Sign Up</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container helper" id="startPage">
+    <div class="row">
+        <form id="loginForm">
+            <div class="form-group">
+                <h1>Login</h1>
+                <label for="UserLogin">Username</label>
+                <input class="form-control" type="text" placeholder="John" id="lUserLogin">
+            </div>
+
+            <div class="form-group">
+                <label for="UserPass">Password</label>
+                <input class="form-control" type="password" placeholder="******" id="lUserPass">
+            </div>
+
+            <div class="btn btn-primary" id="SignIn">Enter</div>
+            <div class="btn btn-info" id="btn-regModal">Register</div>
+        </form>
+    </div>
+</div>
+
+
+<div class="container helper" id="LoginedSide">
+    <div class="row">
+        <div class="col"><h1>Address Book</h1></div>
+    </div>
+
+    <div class="row tool">
+        <div class="btn btn-primary mb-3" id="btn-open">New</div>
+        <div class="input-group col mb-3">
+            <input type="text" id="search" class="form-control" >
+
+            <div class="input-group-append col-3">
+                <select class="custom-select" id="iSelect">
+                    <option value="0">By country/city</option>
+                    <option value="1">By company</option>
+                </select>
+            </div>
+
+            <button type="button" id="btn-search" class="btn btn-secondary">Search</button>
+
+        </div>
+
+        <div class="btn btn-warning mb-3" id="btn-exit">Exit</div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="btn btn-secondary" onclick="downloadCSV()">save to CSV</div>
+        <div class="btn btn-info" id="importJson">import from JSON</div>
+        <hr>
+    </div>
+
+
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col"> </th>
+                <th scope="col" >
+                    <div class="pointable" id="byF">First Name</div>
+                    <input type="text" id="search0" placeholder="Search by name" class="tableSearch">
+                </th>
+                <th scope="col" >
+                    <div class="pointable" id="byL">Last Name</div>
+                    <input type="text" id="search1" placeholder="Search by surname" class="tableSearch">
+                </th>
+                <th scope="col">
+                    <div class="pointable" id="byE">Email</div>
+                    <input type="text" id="search2" placeholder="Search by E-mail" class="tableSearch">
+                </th>
+                <th scope="col" >
+                    <div class="pointable" id="byN">Number</div>
+                    <input type="text"  id="search3" placeholder="Search by phone number" class="tableSearch">
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div id="btn-delete" class="btn btn-danger helper">Delete</div>
+        <div id="btn-info" class="btn btn-dark helper">info</div>
+        <div id="btn-select-all" class="btn btn-primary">Select all</div>
+
+    </div>
+
+
+    <!-- ******************modals******************** -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="fullModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form class="needs-validation" id="addForm" novalidate>
+                    <div class="form-group">
+                        <label for="first-name">First name*</label>
+                        <input class="form-control" type="text" placeholder="John" id="first-name" pattern="[а-яА-ЯёЁa-zA-Z]{2,20}" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Max 20 letters min 1
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="last-name">Last name*</label>
+                        <input class="form-control" type="text" placeholder="Smith" id="last-name" pattern="[а-яА-ЯёЁa-zA-Z]{2,20}" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Max 20 letters min 1
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="number">Number*</label>
+                        <input class="form-control" type="text" placeholder="+XXXXXXXXXXX" id="number" pattern="^\+?\d{1,3}?[- .]?\(?(?:\d{2,3})\)?[- .]?\d\d\d[- .]?\d\d\d\d$" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Enter your data in format +XXXXXXXXXXX
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email address*</label>
+                        <input type="email" class="form-control" id="email" placeholder="name@example.com" pattern="^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Incorrect email address
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>City, Country</label>
+                        <input type="text" class="form-control" id="place" placeholder="Rivne, Ukraine">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Work</label>
+                        <input type="text" class="form-control" id="place2" placeholder="Archer" >
+                    </div>
+
+
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div id="btn-add" class="btn btn-primary">Add new book</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- ********************** -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="infoModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" >
+                <div class="modal-body" id="ui1">
+                    <div class="heading">
+                        <span>First name</span>
+                        <span>Last name</span>
+                        <span>Email</span>
+                        <span>Number</span>
+                        <span>City, country</span>
+                        <span>Place of work</span>
+
+                    </div>
+                    <div class="values">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="btn btn-primary" id="btn-edit">Edit</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="import">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" >
+                <div class="form-group">
+                    <label>JSON file url</label>
+                    <input type="text" class="form-control" id="importurl" placeholder="test_file.json" >
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="btn btn-primary" id="btn-import">Import</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="editModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" >
+                <form class="needs-validation2" novalidate>
+                    <div class="form-group">
+                        <label for="first-name">First name*</label>
+                        <input class="form-control" type="text" placeholder="John" id="i1" pattern="[а-яА-ЯёЁa-zA-Z]{2,20}" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Max 20 letters min 1
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="last-name">Last name*</label>
+                        <input class="form-control" type="text" placeholder="Smith" id="i2" pattern="[а-яА-ЯёЁa-zA-Z]{2,20}" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Max 20 letters min 1
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="number">Number*</label>
+                        <input class="form-control" id="i3" type="text" placeholder="+XXXXXXXXXXX"  pattern="^\+?\d{1,3}?[- .]?\(?(?:\d{2,3})\)?[- .]?\d\d\d[- .]?\d\d\d\d$" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Enter your data in format +XXXXXXXXXXX
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email address*</label>
+                        <input type="email" class="form-control" id="i4" placeholder="name@example.com" pattern="^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Incorrect email address
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>City, Country</label>
+                        <input type="text" class="form-control" id="i5" placeholder="Rivne, Ukraine" >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Work</label>
+                        <input type="text" class="form-control" id="i6" placeholder="Archer" >
+                    </div>
+
+
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div id="btn-save" class="btn btn-primary">Save book</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- *************************** -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="matchesModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <h2>There are users with such data!</h2>
+                <p>Your can update data</p>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th  scope="col" >First name</th>
+                        <th  scope="col">Last name</th>
+                        <th scope="col">email</th>
+                        <th scope="col">number</th>
+                    </tr>
+                    </thead>
+                    <tbody id="ui2">
+
+                    </tbody>
+                </table>
+                <div class="modal-footer">
+                    <div class="btn btn-primary" id="btn-allow">Anyway, add</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- ********************* -->
+</div>
+
+
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="src/libs/bootstrap-native.min.js"></script>
+<script src="dist/main.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiJErCGzEU21qPo9hYvxTw7ZaWPoME9Dk&libraries=places&callback=complete"></script>
+</body>
+</html>
